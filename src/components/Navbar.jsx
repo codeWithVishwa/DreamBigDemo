@@ -51,7 +51,11 @@ export default function Navbar() {
   const handleNav = (e, href) => {
     e.preventDefault()
     setOpen(false)
-    scrollTo(href)
+    // Release the scroll lock before navigating — otherwise the still-stopped
+    // Lenis instance ignores the scrollTo and the link appears to do nothing.
+    window.__lenis?.start()
+    document.body.style.overflow = ''
+    requestAnimationFrame(() => scrollTo(href))
   }
 
   return (
