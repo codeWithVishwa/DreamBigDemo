@@ -88,7 +88,7 @@ export default function Hero() {
     <section
       id="home"
       ref={sectionRef}
-      className="relative h-screen w-full overflow-hidden"
+      className="relative min-h-svh w-full overflow-hidden"
     >
       {/* Video — smooth ambient loop with poster for instant paint */}
       <video
@@ -122,24 +122,20 @@ export default function Hero() {
         variants={container}
         initial="hidden"
         animate="show"
-        className="relative z-10 mx-auto flex h-full max-w-7xl flex-col justify-center px-6 lg:px-10"
+        className="relative z-10 mx-auto flex min-h-svh max-w-7xl flex-col justify-center px-6 py-28 lg:px-10 [@media(max-height:700px)]:py-24"
       >
         <div className="max-w-2xl">
           <motion.span
             variants={fadeUp}
             className="mb-6 inline-flex w-fit items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-xs font-medium uppercase tracking-[0.28em] text-accent backdrop-blur-sm"
           >
-            <span className="relative flex h-1.5 w-1.5">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-75" />
-              <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-accent" />
-            </span>
-            The Premium Strength Club
+
           </motion.span>
 
           {/* Headline — per-word clip reveal (each word wraps independently) */}
           <motion.h1
             variants={wordWrap}
-            className="flex flex-wrap gap-x-[0.28em] text-left text-[3.25rem] font-semibold leading-[0.92] text-ink sm:text-7xl lg:text-[5.5rem]"
+            className="flex flex-wrap gap-x-[0.28em] text-left text-[clamp(2.5rem,min(6vw+1.5rem,11vh),5.5rem)] font-semibold leading-[0.92] text-ink"
           >
             {HEADLINE.map((w, i) => (
               <span key={i} className="contents">
