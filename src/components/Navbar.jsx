@@ -33,6 +33,21 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
+  // Lock background scroll while the mobile menu is open.
+  useEffect(() => {
+    if (open) {
+      window.__lenis?.stop()
+      document.body.style.overflow = 'hidden'
+    } else {
+      window.__lenis?.start()
+      document.body.style.overflow = ''
+    }
+    return () => {
+      window.__lenis?.start()
+      document.body.style.overflow = ''
+    }
+  }, [open])
+
   const handleNav = (e, href) => {
     e.preventDefault()
     setOpen(false)
@@ -47,7 +62,7 @@ export default function Navbar() {
       className="fixed inset-x-0 top-0 z-50"
     >
       <div
-        className={`transition-all duration-500 ${
+        className={`relative z-50 transition-all duration-500 ${
           scrolled
             ? 'glass border-b border-white/10'
             : 'border-b border-transparent bg-transparent'
@@ -137,14 +152,14 @@ export default function Navbar() {
       <AnimatePresence>
         {open && (
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-            className="glass overflow-hidden border-b border-white/10 lg:hidden"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+            className="fixed inset-0 z-40 bg-base/80 backdrop-blur-2xl lg:hidden"
           >
-            <div className="mx-auto flex min-h-[calc(100dvh-72px)] max-w-7xl flex-col px-6 py-8">
-              <ul className="flex flex-1 flex-col justify-center gap-1">
+            <div className="mx-auto flex h-dvh max-w-7xl flex-col px-6 pb-10 pt-24">
+              <ul className="flex flex-1 flex-col justify-center gap-1 overflow-y-auto">
                 {LINKS.map((l, i) => {
                   const isActive = active === l.id
                   return (
@@ -153,17 +168,17 @@ export default function Navbar() {
                       initial={{ opacity: 0, x: -24 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{
-                        delay: 0.12 + i * 0.06,
-                        duration: 0.5,
+                        delay: 0.1 + i * 0.05,
+                        duration: 0.45,
                         ease: [0.22, 1, 0.36, 1],
                       }}
-                      className="border-b border-white/5"
+                      className="border-b border-white/10"
                     >
                       <a
                         href={l.href}
                         onClick={(e) => handleNav(e, l.href)}
-                        className={`group flex items-center justify-between py-4 font-display text-3xl font-semibold tracking-tight transition-colors ${
-                          isActive ? 'text-ink' : 'text-muted hover:text-ink'
+                        className={`flex items-center justify-between py-4 font-display text-3xl font-semibold tracking-tight transition-colors active:text-accent ${
+                          isActive ? 'text-ink' : 'text-muted'
                         }`}
                       >
                         <span className="flex items-baseline gap-3">
@@ -173,8 +188,8 @@ export default function Navbar() {
                           {l.label}
                         </span>
                         <IconArrow
-                          className={`h-5 w-5 -translate-x-2 opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100 ${
-                            isActive ? 'translate-x-0 text-accent opacity-100' : ''
+                          className={`h-5 w-5 transition-colors ${
+                            isActive ? 'text-accent' : 'text-muted'
                           }`}
                         />
                       </a>
@@ -189,7 +204,7 @@ export default function Navbar() {
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                className="mt-8 flex items-center justify-center gap-2 rounded-full bg-accent px-5 py-4 text-sm font-semibold text-black shadow-[0_12px_40px_-10px_rgba(220,38,38,0.7)] transition-colors hover:bg-accent-soft"
+                className="mt-8 flex items-center justify-center gap-2 rounded-full bg-accent px-5 py-4 text-sm font-semibold text-black shadow-[0_12px_40px_-10px_rgba(220,38,38,0.7)] transition-colors active:bg-accent-soft"
               >
                 Join Now <IconArrow className="h-4 w-4" />
               </motion.a>

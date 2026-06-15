@@ -125,13 +125,7 @@ export default function Hero() {
         className="relative z-10 mx-auto flex min-h-svh max-w-7xl flex-col justify-center px-6 py-28 lg:px-10 [@media(max-height:700px)]:py-24"
       >
         <div className="max-w-2xl">
-          <motion.span
-            variants={fadeUp}
-            className="mb-6 inline-flex w-fit items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-xs font-medium uppercase tracking-[0.28em] text-accent backdrop-blur-sm"
-          >
-
-          </motion.span>
-
+          
           {/* Headline — per-word clip reveal (each word wraps independently) */}
           <motion.h1
             variants={wordWrap}
